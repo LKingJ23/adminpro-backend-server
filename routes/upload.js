@@ -1,20 +1,20 @@
-var express = require('express');
-var fileUpload = require('express-fileupload');
-var fs = require('fs');
+const express = require('express');
+const fileUpload = require('express-fileupload');
+const fs = require('fs');
 
-var app = express();
+const app = express();
 
-var Usuario = require('../models/usuario');
-var Hospital = require('../models/hospital');
-var Medico = require('../models/medico');
+const Usuario = require('../models/usuario');
+const Hospital = require('../models/hospital');
+const Medico = require('../models/medico');
 
 app.use(fileUpload());
 
 app.put('/:tipo/:id', ( req, res, next ) => {
-    var tipo = req.params.tipo;
-    var id = req.params.id;
+    const tipo = req.params.tipo;
+    const id = req.params.id;
 
-    var tiposValidos = ['hospitales', 'medicos', 'usuarios'];
+    const tiposValidos = ['hospitales', 'medicos', 'usuarios'];
     if( tiposValidos.indexOf( tipo ) < 0){
         return res.status(400).json({
             ok: false,
@@ -31,11 +31,11 @@ app.put('/:tipo/:id', ( req, res, next ) => {
         });
     }
 
-    var archivo = req.files.imagen;
-    var nombreExtension = archivo.name.split('.');
-    var extensionArchivo = nombreExtension[ nombreExtension.length - 1 ];
+    const archivo = req.files.imagen;
+    const nombreExtension = archivo.name.split('.');
+    const extensionArchivo = nombreExtension[ nombreExtension.length - 1 ];
 
-    var extensionesValidas = ['png', 'jpg', 'gif', 'jpeg'];
+    const extensionesValidas = ['png', 'jpg', 'gif', 'jpeg'];
 
     if( extensionesValidas.indexOf( extensionArchivo ) < 0 ){
         return res.status(400).json({
@@ -45,8 +45,8 @@ app.put('/:tipo/:id', ( req, res, next ) => {
         });
     }
 
-    var nombreArchivo = `${ id }-${ new Date().getMilliseconds() }.${ extensionArchivo }`;
-    var path = `./uploads/${ tipo }/${ nombreArchivo }`;
+    const nombreArchivo = `${ id }-${ new Date().getMilliseconds() }.${ extensionArchivo }`;
+    const path = `./uploads/${ tipo }/${ nombreArchivo }`;
 
     archivo.mv( path, err => {
         if( err ){
@@ -71,7 +71,7 @@ function subirPorTipo( tipo, id, nombreArchivo, res ){
                 });
             }
 
-            var oldPath = './uploads/usuarios/' + usuario.img;
+            const oldPath = './uploads/usuarios/' + usuario.img;
 
             if( fs.existsSync(oldPath) ){
                 fs.unlinkSync( oldPath );
@@ -109,7 +109,7 @@ function subirPorTipo( tipo, id, nombreArchivo, res ){
                 });
             }
 
-            var oldPath = './uploads/medicos/' + medico.img;
+            const oldPath = './uploads/medicos/' + medico.img;
 
             if( fs.existsSync(oldPath) ){
                 fs.unlinkSync( oldPath );
@@ -145,7 +145,7 @@ function subirPorTipo( tipo, id, nombreArchivo, res ){
                 });
             }
 
-            var oldPath = './uploads/hospitales/' + hospital.img;
+            const oldPath = './uploads/hospitales/' + hospital.img;
 
             if( fs.existsSync(oldPath) ){
                 fs.unlinkSync( oldPath );

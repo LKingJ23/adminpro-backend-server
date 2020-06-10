@@ -1,15 +1,15 @@
-var express = require('express');
+const express = require('express');
 
-var app = express();
+const app = express();
 
-var Hospital = require('../models/hospital');
-var Medico = require('../models/medico');
-var Usuario = require('../models/usuario');
+const Hospital = require('../models/hospital');
+const Medico = require('../models/medico');
+const Usuario = require('../models/usuario');
 
 app.get('/coleccion/:tabla/:busqueda', ( req, res ) => {
-    var busqueda = req.params.busqueda;
-    var tabla = req.params.tabla;
-    var regex = new RegExp( busqueda, 'i');
+    const busqueda = req.params.busqueda;
+    const tabla = req.params.tabla;
+    const regex = new RegExp( busqueda, 'i');
     
     switch( tabla ){
         case 'usuarios':
@@ -42,8 +42,8 @@ app.get('/coleccion/:tabla/:busqueda', ( req, res ) => {
 
 app.get('/todo/:busqueda', ( req, res, next ) => {
 
-    var busqueda = req.params.busqueda;
-    var regex = new RegExp( busqueda, 'i');
+    const busqueda = req.params.busqueda;
+    const regex = new RegExp( busqueda, 'i');
 
     Promise.all( [ 
             buscarHospitales(busqueda, regex),

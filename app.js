@@ -1,21 +1,30 @@
-var express = require('express');
-var mongoose = require('mongoose');
-var bodyParser = require('body-parser');
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 
-var app = express();
+const app = express();
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+    next();
+});
+
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-var appRoutes = require('./routes/app');
-var usuarioRoutes = require('./routes/usuario');
-var loginRoutes = require('./routes/login');
-var hospitalRoutes = require('./routes/hospital');
-var medicoRoutes = require('./routes/medico');
-var busquedaRoutes = require('./routes/busqueda');
-var uploadRoutes = require('./routes/upload');
-var imagenesRoutes = require('./routes/imagenes');
+const appRoutes = require('./routes/app');
+const usuarioRoutes = require('./routes/usuario');
+const loginRoutes = require('./routes/login');
+const hospitalRoutes = require('./routes/hospital');
+const medicoRoutes = require('./routes/medico');
+const busquedaRoutes = require('./routes/busqueda');
+const uploadRoutes = require('./routes/upload');
+const imagenesRoutes = require('./routes/imagenes');
 
 mongoose.set('useUnifiedTopology', true);
 mongoose.set('useNewUrlParser', true);
@@ -26,7 +35,7 @@ mongoose.connect('mongodb://localhost:27017/hospitalDB', (err, res) => {
     console.log('Base de datos conectada');
 });
 
-//var serveIndex = require('serve-index');
+//const serveIndex = require('serve-index');
 //app.use(express.static(__dirname + '/'))
 //app.use('/uploads', serveIndex(__dirname + '/uploads'));
 

@@ -1,12 +1,12 @@
-var express = require('express');
+const express = require('express');
 
-var app = express();
+const app = express();
 
-var Medico = require('../models/medico');
-var mdAutenticacion = require('../middlewares/autenticacion');
+const Medico = require('../models/medico');
+const mdAutenticacion = require('../middlewares/autenticacion');
 
 app.get('/', ( req, res, next ) => {
-    var desde = req.query.desde || 0;
+    let desde = req.query.desde || 0;
     desde = Number(desde);
 
     Medico.find({})
@@ -35,8 +35,8 @@ app.get('/', ( req, res, next ) => {
 });
 
 app.put('/:id', mdAutenticacion.verificaToken, ( req, res ) => {
-    var id = req.params.id;
-    var body = req.body;
+    const id = req.params.id;
+    const body = req.body;
 
     Medico.findById( id, (err, medico) => {
         if ( err ) {
@@ -80,9 +80,9 @@ app.put('/:id', mdAutenticacion.verificaToken, ( req, res ) => {
 });
 
 app.post('/', mdAutenticacion.verificaToken, ( req, res ) => {
-    var body = req.body;
+    const body = req.body;
 
-    var medico = new Medico({
+    const medico = new Medico({
         nombre: body.nombre,
         usuario: req.usuario._id,
         hospital: body.hospital
@@ -107,7 +107,7 @@ app.post('/', mdAutenticacion.verificaToken, ( req, res ) => {
 });
 
 app.delete('/:id', mdAutenticacion.verificaToken, ( req, res ) => {
-    var id = req.params.id;
+    const id = req.params.id;
 
     Medico.findByIdAndDelete( id, (err, medicoBorrado) => {
         if ( err ) {

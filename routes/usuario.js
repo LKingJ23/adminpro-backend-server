@@ -1,14 +1,14 @@
-var express = require('express');
-var bcrypt = require('bcryptjs');
-var jwt = require('jsonwebtoken');
+const express = require('express');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
-var app = express();
+const app = express();
 
-var Usuario = require('../models/usuario');
-var mdAutenticacion = require('../middlewares/autenticacion');
+const Usuario = require('../models/usuario');
+const mdAutenticacion = require('../middlewares/autenticacion');
 
 app.get('/', ( req, res, next ) => {
-    var desde = req.query.desde || 0;
+    let desde = req.query.desde || 0;
     desde = Number(desde);
 
     Usuario.find({ }, 'nombre email img role')
@@ -35,8 +35,8 @@ app.get('/', ( req, res, next ) => {
 });
 
 app.put('/:id', mdAutenticacion.verificaToken, ( req, res ) => {
-    var id = req.params.id;
-    var body = req.body;
+    const id = req.params.id;
+    const body = req.body;
 
     Usuario.findById( id, (err, usuario) => {
         if ( err ) {
@@ -81,10 +81,10 @@ app.put('/:id', mdAutenticacion.verificaToken, ( req, res ) => {
 
 });
 
-app.post('/', mdAutenticacion.verificaToken, ( req, res ) => {
-    var body = req.body;
+app.post('/', ( req, res ) => {
+    const body = req.body;
 
-    var usuario = new Usuario({
+    const usuario = new Usuario({
         nombre: body.nombre,
         email: body.email,
         password: bcrypt.hashSync(body.password, 10),
@@ -112,7 +112,7 @@ app.post('/', mdAutenticacion.verificaToken, ( req, res ) => {
 });
 
 app.delete('/:id', mdAutenticacion.verificaToken, ( req, res ) => {
-    var id = req.params.id;
+    const id = req.params.id;
 
     Usuario.findByIdAndDelete( id, (err, usuarioBorrado) => {
         if ( err ) {
