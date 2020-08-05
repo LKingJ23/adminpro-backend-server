@@ -134,4 +134,33 @@ app.delete('/:id', mdAutenticacion.verificaToken, ( req, res ) => {
 
 });
 
+app.get('/:id', mdAutenticacion.verificaToken, ( req, res ) => {
+    const id = req.params.id;
+
+    Medico.findById( id, (err, medico) => {
+        if ( err ) {
+            return res.status(500).json({
+                ok: false,
+                mensaje: 'Error al buscar medico',
+                errors: err
+            });
+        }
+
+        if ( !medico ) {
+            if ( err ) {
+                return res.status(400).json({
+                    ok: false,
+                    mensaje: 'El medico con el id ' + id + ' no existe',
+                    errors: { message: 'No existe un medico con ese ID' }
+                });
+            }
+        }
+
+        res.status(200).json({
+            ok: true,
+            medico: medico
+        });
+    });
+});
+
 module.exports = app;
